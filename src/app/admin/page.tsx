@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { Pencil, Trash2 } from 'lucide-react';
 import { deleteOutfitAction } from './actions';
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
   await connectToDatabase();
   const outfits = await Outfit.find({}).sort({ createdAt: -1 }).lean();

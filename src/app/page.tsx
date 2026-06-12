@@ -2,7 +2,7 @@ import connectToDatabase from '@/lib/mongodb';
 import { Outfit } from '@/models/Outfit';
 import OutfitGrid from '@/components/OutfitGrid';
 
-export const revalidate = 60; // Revalidate every 60 seconds
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   await connectToDatabase();

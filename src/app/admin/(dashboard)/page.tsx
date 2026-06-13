@@ -27,7 +27,9 @@ export default async function AdminDashboard() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-                  {/* Edit functionality omitted for brevity, but easily added */}
+                  <Link href={`/admin/outfit/${outfit._id.toString()}/edit`} className="p-3 bg-white/20 text-white rounded-full hover:bg-white/40 transition-colors" title="Edit Outfit">
+                    <Pencil className="w-5 h-5" />
+                  </Link>
                   <form action={deleteOutfitAction}>
                     <input type="hidden" name="id" value={outfit._id.toString()} />
                     <button type="submit" className="p-3 bg-red-500/80 text-white rounded-full hover:bg-red-500 transition-colors" title="Delete Outfit">

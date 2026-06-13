@@ -31,3 +31,22 @@ export async function createOutfitActionJSON(payload: {
   revalidatePath("/");
   revalidatePath("/admin");
 }
+
+export async function updateOutfitActionJSON(
+  id: string,
+  payload: {
+    coverImage: string;
+    items: { image: string; url: string }[];
+  }
+) {
+  await connectToDatabase();
+  
+  await Outfit.findByIdAndUpdate(id, {
+    coverImage: payload.coverImage,
+    items: payload.items,
+  });
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  revalidatePath(`/outfit/${id}`);
+}

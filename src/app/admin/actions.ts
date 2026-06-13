@@ -17,50 +17,17 @@ export async function deleteOutfitAction(formData: FormData) {
   revalidatePath("/admin");
 }
 
-export async function createOutfitAction(formData: FormData) {
+export async function createOutfitActionJSON(payload: {
+  coverImage: string;
+  items: { image: string; url: string }[];
+}) {
   await connectToDatabase();
   
-  const coverImageFile = formData.get("coverImage") as File;
-  
-  if (!coverImageFile || coverImageFile.size === 0) {
-    throw new Error("Cover image is required");
-  }
-
-  // Upload cover image
-  const coverBuffer = Buffer.from(await coverImageFile.arrayBuffer());
-  const coverUploadResult = await uploadToCloudinary(coverBuffer, "byvaqqas/covers");
-  const coverImageUrl = coverUploadResult.secure_url;
-
-  // Process items (dynamic fields)
-  const items = [];
-  let index = 0;
-  
-  while (true) {
-    const itemImageFile = formData.get(`items[${index}][image]`) as File;
-    const itemUrl = formData.get(`items[${index}][url]`) as string;
-    
-    if (!itemImageFile || itemImageFile.size === 0 || !itemUrl) {
-      break; // No more items
-    }
-    
-    const itemBuffer = Buffer.from(await itemImageFile.arrayBuffer());
-    const itemUploadResult = await uploadToCloudinary(itemBuffer, "byvaqqas/items");
-    
-    items.push({
-      image: itemUploadResult.secure_url,
-      url: itemUrl,
-    });
-    
-    index++;
-  }
-
-  // Save to DB
   await Outfit.create({
-    coverImage: coverImageUrl,
-    items,
+    coverImage: payload.coverImage,
+    items: payload.items,
   });
 
   revalidatePath("/");
   revalidatePath("/admin");
-  redirect("/admin");
 }

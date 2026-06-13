@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Plus, Trash2, Loader2 } from "lucide-react";
-import { createOutfitActionJSON } from "../actions";
+import { createOutfitActionJSON } from "../../actions";
 import { useRouter } from "next/navigation";
 
 export default function NewOutfitPage() {

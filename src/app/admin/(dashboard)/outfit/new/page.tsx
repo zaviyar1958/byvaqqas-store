@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Plus, Trash2, Loader2 } from "lucide-react";
-import { createOutfitActionJSON } from "../../actions";
+import { createOutfitActionJSON } from "../../../../actions";
 import { useRouter } from "next/navigation";
 
 export default function NewOutfitPage() {
@@ -19,7 +19,6 @@ export default function NewOutfitPage() {
   };
 
   const uploadFileToCloudinary = async (file: File, folder: string) => {
-    // Get signature
     const signRes = await fetch("/api/cloudinary-sign", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -58,12 +57,10 @@ export default function NewOutfitPage() {
     try {
       const formData = new FormData(formRef.current);
       
-      // Upload cover image directly
       const coverImageFile = formData.get("coverImage") as File;
       if (!coverImageFile || coverImageFile.size === 0) throw new Error("Cover image missing");
       const coverImageUrl = await uploadFileToCloudinary(coverImageFile, "byvaqqas/covers");
 
-      // Upload items directly
       const uploadedItems = [];
       for (let i = 0; i < items.length; i++) {
         const itemImageFile = formData.get(`items[${i}][image]`) as File;
@@ -78,7 +75,6 @@ export default function NewOutfitPage() {
         }
       }
 
-      // Send the tiny JSON payload to the server action
       await createOutfitActionJSON({
         coverImage: coverImageUrl,
         items: uploadedItems

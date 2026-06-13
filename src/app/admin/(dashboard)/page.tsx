@@ -2,7 +2,7 @@ import connectToDatabase from '@/lib/mongodb';
 import { Outfit } from '@/models/Outfit';
 import Link from 'next/link';
 import { Pencil, Trash2 } from 'lucide-react';
-import { deleteOutfitAction } from './actions';
+import { deleteOutfitAction } from '../actions';
 
 export const dynamic = "force-dynamic";
 
